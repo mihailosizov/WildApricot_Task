@@ -2,6 +2,9 @@
 using TechTalk.SpecFlow;
 using GMailPages;
 using GMailTests.Utils;
+using GMailPages.Pages;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using static GMailPages.StaticData;
 
 namespace GMailTests
 {
@@ -9,6 +12,7 @@ namespace GMailTests
     public class LoginSteps : BaseTest
     {
         private LoginPage loginPage = new LoginPage();
+        private InboxPage inboxPage = new InboxPage();
 
         [Given(@"GMail login page")]
         public void GivenGMailLoginPage()
@@ -16,18 +20,18 @@ namespace GMailTests
             loginPage.OpenLoginPage();
         }
 
-        [When(@"User tries to log in using (.*) and (.*)")]
-        public void WhenUserTriesToLoginUsingLoginAndPassword(String login, String password)
+        [When(@"User tries to log in using standard password")]
+        public void WhenUserTriesToLoginUsingLoginAndPassword()
         {
-            loginPage.EnterLoginAndProceed(login);
-            loginPage.EnterPassword(password);
+            loginPage.EnterLoginAndProceed(DefaultLogIn);
+            loginPage.EnterPassword(DefaultPassword);
             loginPage.SignIn(false);
         }
 
         [Then(@"User successfully logged in")]
         public void ThenUserSuccessfullyLoggedIn()
         {
-            //ScenarioContext.Current.Pending();
+            Assert.IsTrue(inboxPage.IsNavToolbarPresent());
         }
     }
 }

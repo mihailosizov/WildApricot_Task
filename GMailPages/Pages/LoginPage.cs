@@ -1,15 +1,17 @@
 ﻿using OpenQA.Selenium;
+using static GMailPages.StaticData;
 
 namespace GMailPages
 {
     public class LoginPage
     {
-        private static string loginFieldXPath = "//*[@id='Email']";
-        private static string nextButtonXPath = "//*[@id='next']";
-        private static string pwdFieldXPath = "//*[@id='Passwd']";
-        private static string signInButtonXPath = "//*[@id='signIn']";
-        private static string stayLoggedInCheckBoxXPath = "//*[@id='PersistentCookie']";
-        private static string wrongPasswordMessageXPath = "//*[@id='errormsg_0_Passwd']";
+        private By byLoginFieldXPath = By.XPath("//*[@id='Email']");
+        private By byNextButtonXPath = By.XPath("//*[@id='next']");
+        private By byPwdFieldXPath = By.XPath("//*[@id='Passwd']");
+        private By bySignInButtonXPath = By.XPath("//*[@id='signIn']");
+        private By byStayLoggedInCheckBoxXPath = By.XPath("//*[@id='PersistentCookie']");
+        private By byWrongPasswordMessageXPath = By.XPath("//*[@id='errormsg_0_Passwd']");
+        private IWebDriver driver;
         private IWebElement loginField;
         private IWebElement nextButton;
         private IWebElement pwdField;
@@ -17,29 +19,34 @@ namespace GMailPages
         private IWebElement stayLoggedInCheckBox;
         private IWebElement wrongPasswordMessage;
 
-        public void OpenLoginPage()
+        public LoginPage()
         {
-            Driver.NavigateTo(StaticData.LoginPageUrl);
+            driver = Driver.Instance;
         }
 
-        public void EnterLoginAndProceed(string login)
+        public void OpenLoginPage()
         {
-            loginField = Driver.Instance.FindElement(By.XPath(loginFieldXPath));
-            loginField.SendKeys(login);
-            nextButton = Driver.Instance.FindElement(By.XPath(nextButtonXPath));
+            Driver.NavigateTo(LoginPageUrl);
+        }
+
+        public void EnterLoginAndProceed(string logIn)
+        {
+            loginField = driver.FindElement(byLoginFieldXPath);
+            loginField.SendKeys(logIn);
+            nextButton = driver.FindElement(byNextButtonXPath);
             nextButton.Click();
         }
 
-        public void EnterPassword(string pwd)
+        public void EnterPassword(string password)
         {
-            pwdField = Driver.Instance.FindElement(By.XPath(pwdFieldXPath));
-            pwdField.SendKeys(pwd);
+            pwdField = driver.FindElement(byPwdFieldXPath);
+            pwdField.SendKeys(password);
         }
 
         public void SignIn(bool stayLoggedIn)
         {
-            signInButton = Driver.Instance.FindElement(By.XPath(signInButtonXPath));
-            stayLoggedInCheckBox = Driver.Instance.FindElement(By.XPath(stayLoggedInCheckBoxXPath));
+            signInButton = driver.FindElement(bySignInButtonXPath);
+            stayLoggedInCheckBox = driver.FindElement(byStayLoggedInCheckBoxXPath);
             if (stayLoggedIn)
             {
                 if (!stayLoggedInCheckBox.Selected)
@@ -53,12 +60,20 @@ namespace GMailPages
             signInButton.Click();
             try
             {
-                wrongPasswordMessage = Driver.Instance.FindElement(By.XPath(wrongPasswordMessageXPath));
+                wrongPasswordMessage = driver.FindElement(byWrongPasswordMessageXPath);
                 throw new System.Exception("Login failed - wrong password");
             }
             catch (NoSuchElementException)
             {
             }
+        }
+
+        public void PerformDefaultUserLogin()
+        {
+            OpenLoginPage();
+            EnterLoginAndProceed(DefaultLogIn);
+            EnterPassword(DefaultPassword);
+            SignIn(false);
         }
     }
 }
