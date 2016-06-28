@@ -1,5 +1,7 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Support.PageObjects;
+using OpenQA.Selenium.Support.UI;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -7,16 +9,24 @@ namespace GMailPages.Pages
 {
     public class InboxPage : GmailInterfacePage
     {
-        private By byInboxMessagesPanelXPath = By.XPath("//div[@role='tabpanel']//tbody");
-        private By byCheckBoxXPath = By.XPath("//div[@role='checkbox']");
+        [FindsBy(How = How.XPath, Using = "//div[@role='tabpanel']//tbody")]
+        private IWebElement inboxMessagesPanel;
+
+        private By byMessageRowCheckBoxXPath = By.XPath("ancestor::tr//div[@role='checkbox']");
+
         private string containsTextXPath = "//*[contains(text(), '{0}')]";
 
-        public void SelectMessagesByText(string text)
+        public InboxPage()
         {
-            List<IWebElement> messages = FindElementsByTextInMessagesPanel(text);
+            PageFactory.InitElements(driver, this);
+        }
+
+        public void SelectMessagesByText(ICollection<string> texts)
+        {
+            List<IWebElement> messages = FindElementsByTextInMessagesPanel(texts);
             foreach (IWebElement message in messages)
             {
-                IWebElement checkBox = message.FindElement(byCheckBoxXPath);
+                IWebElement checkBox = message.FindElement(byMessageRowCheckBoxXPath);
                 if (checkBox.GetAttribute("aria-checked").Equals("false"))
                 {
                     checkBox.Click();
@@ -24,13 +34,17 @@ namespace GMailPages.Pages
             }
         }
 
-        public List<IWebElement> FindElementsByTextInMessagesPanel(string textToLookFor)
+        public List<IWebElement> FindElementsByTextInMessagesPanel(ICollection<string> texts)
         {
-            IWebElement inboxMessagesPanel = driver.FindElement(byInboxMessagesPanelXPath);
-            ReadOnlyCollection<IWebElement> allFoundElements = inboxMessagesPanel.
-                FindElements(By.XPath(string.Format(containsTextXPath, textToLookFor)));
+            List<IWebElement> foundElements = new List<IWebElement>();
+            ReadOnlyCollection<IWebElement> nextFoundElements;
+            foreach (string text in texts)
+            {
+                nextFoundElements = inboxMessagesPanel.FindElements(By.XPath(string.Format(containsTextXPath, text)));
+                foundElements.AddRange(nextFoundElements);
+            }
             List<IWebElement> elementsToReturn = new List<IWebElement>();
-            foreach (IWebElement element in allFoundElements)
+            foreach (IWebElement element in foundElements)
             {
                 if (element.Displayed)
                 {

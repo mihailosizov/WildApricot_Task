@@ -10,19 +10,32 @@ using System.Threading.Tasks;
 
 namespace GMailPages.Pages
 {
-    public abstract class GmailInterfacePage
+    public class GmailInterfacePage
     {
         protected IWebDriver driver;
-        private string inboxLink = "Inbox";
+
+        [FindsBy(How = How.XPath, Using = "//div[@role='navigation']")]
+        [CacheLookup]
+        protected IWebElement navigationToolbar;
+
+        [FindsBy(How = How.XPath, Using = "//div[contains(text(), 'COMPOSE')]")]
+        [CacheLookup]
+        protected IWebElement composeNewMailButton;
+
+        [FindsBy(How = How.XPath, Using = "//div[@aria-label='Delete']|//div[@title='Delete']")]
+        protected IWebElement deleteButton;
+
+        [FindsBy(How = How.XPath, Using = "//div[@aria-label='Refresh']|//div[@title='Refresh']")]
+        protected IWebElement refreshButton;
+
         protected By byNavigationToolbarXPath = By.XPath("//div[@role='navigation']");
-        protected By byComposeNewMailButtonXPath = By.XPath("//div[contains(text(), 'COMPOSE')]");
-        protected By byLoadingMessageXPath = By.XPath("//div[contains(text(), 'Loading...')]");
-        protected By byDeleteButtonXPath = By.XPath("//div[@role='button'][@aria-label='Delete']");
         protected By bySuccessfullDeleteMessageXPath = By.XPath("//span[contains(text(), 'been moved to the Trash')]");
-       
-        protected GmailInterfacePage()
+        protected By byLoadingMessageXPath = By.XPath("//*[contains(text(), 'Loading...')]");
+
+        public GmailInterfacePage()
         {
             driver = Driver.Instance;
+            PageFactory.InitElements(driver, this);
         }
 
         public bool IsNavToolbarPresent()
@@ -35,34 +48,41 @@ namespace GMailPages.Pages
             return false;
         }
 
-        public void ClickNewMessageButton()
+        public ComposePage ClickNewMessageButton()
         {
-            driver.FindElement(byComposeNewMailButtonXPath).Click();
+            composeNewMailButton.Click();
+            return new ComposePage();
         }
 
         public void ClickDeleteButton()
         {
-            driver.FindElement(byDeleteButtonXPath).Click();
+            deleteButton.Click();
             if (!driver.FindElements(bySuccessfullDeleteMessageXPath).Any())
                 throw new Exception("Message has not been deleted");
+            Refresh();
         }
 
         public InboxPage OpenInbox()
         {
-            NavigationToolbarGoTo(inboxLink);
+            NavigationToolbarGoTo("Inbox");
             return new InboxPage();
         }
 
         private void NavigationToolbarGoTo(string menuLinkName)
         {
-            IWebElement navToolbar = driver.FindElement(byNavigationToolbarXPath);
-            navToolbar.FindElement(By.PartialLinkText(menuLinkName)).Click();
-            int count = 0;
-            while (driver.FindElements(byLoadingMessageXPath).Any() && count < 100)
-            {
-                Thread.Sleep(100);
-                count++;
-            }
+            navigationToolbar.FindElement(By.PartialLinkText(menuLinkName)).Click();
+            waitForLoading();
+        }
+
+        public void waitForLoading()
+        {
+            Driver.Wait.Until(ExpectedConditions.InvisibilityOfElementLocated(byLoadingMessageXPath));
+        }
+
+        public void Refresh()
+        {
+            refreshButton.Click();
+            waitForLoading();
         }
     }
 }

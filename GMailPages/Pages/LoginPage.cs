@@ -1,79 +1,70 @@
-﻿using OpenQA.Selenium;
+﻿using GMailPages.Pages;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Support.PageObjects;
+using System.Linq;
 using static GMailPages.StaticData;
 
 namespace GMailPages
 {
     public class LoginPage
     {
-        private By byLoginFieldXPath = By.XPath("//*[@id='Email']");
-        private By byNextButtonXPath = By.XPath("//*[@id='next']");
-        private By byPwdFieldXPath = By.XPath("//*[@id='Passwd']");
-        private By bySignInButtonXPath = By.XPath("//*[@id='signIn']");
-        private By byStayLoggedInCheckBoxXPath = By.XPath("//*[@id='PersistentCookie']");
-        private By byWrongPasswordMessageXPath = By.XPath("//*[@id='errormsg_0_Passwd']");
         private IWebDriver driver;
+
+        [FindsBy(How = How.XPath, Using = "//*[@id='Email']")]
         private IWebElement loginField;
+
+        [FindsBy(How = How.XPath, Using = "//*[@id='next']")]
         private IWebElement nextButton;
+
+        [FindsBy(How = How.XPath, Using = "//*[@id='Passwd']")]
         private IWebElement pwdField;
+
+        [FindsBy(How = How.XPath, Using = "//*[@id='signIn']")]
         private IWebElement signInButton;
-        private IWebElement stayLoggedInCheckBox;
-        private IWebElement wrongPasswordMessage;
+
+        private By byWrongPasswordMessageXPath = By.XPath("//*[@id='errormsg_0_Passwd']");
 
         public LoginPage()
         {
             driver = Driver.Instance;
+            PageFactory.InitElements(driver, this);
         }
 
         public void OpenLoginPage()
         {
-            Driver.NavigateTo(LoginPageUrl);
+            driver.Navigate().GoToUrl(LoginPageUrl);
         }
 
         public void EnterLoginAndProceed(string logIn)
         {
-            loginField = driver.FindElement(byLoginFieldXPath);
             loginField.SendKeys(logIn);
-            nextButton = driver.FindElement(byNextButtonXPath);
             nextButton.Click();
         }
 
         public void EnterPassword(string password)
         {
-            pwdField = driver.FindElement(byPwdFieldXPath);
             pwdField.SendKeys(password);
         }
 
-        public void SignIn(bool stayLoggedIn)
+        public InboxPage SignIn()
         {
-            signInButton = driver.FindElement(bySignInButtonXPath);
-            stayLoggedInCheckBox = driver.FindElement(byStayLoggedInCheckBoxXPath);
-            if (stayLoggedIn)
-            {
-                if (!stayLoggedInCheckBox.Selected)
-                    stayLoggedInCheckBox.Click();
-            }
-            else
-            {
-                if (stayLoggedInCheckBox.Selected)
-                    stayLoggedInCheckBox.Click();
-            }
             signInButton.Click();
-            try
+            InboxPage inboxPage = new InboxPage();
+            if (inboxPage.IsNavToolbarPresent())
+                return inboxPage;
+            else if (driver.FindElements(byWrongPasswordMessageXPath).Any())
             {
-                wrongPasswordMessage = driver.FindElement(byWrongPasswordMessageXPath);
                 throw new System.Exception("Login failed - wrong password");
             }
-            catch (NoSuchElementException)
-            {
-            }
+            throw new System.Exception("Login failed");
         }
 
-        public void PerformDefaultUserLogin()
+        public InboxPage PerformDefaultUserLogin()
         {
             OpenLoginPage();
             EnterLoginAndProceed(DefaultLogIn);
             EnterPassword(DefaultPassword);
-            SignIn(false);
+            return SignIn();
         }
     }
 }

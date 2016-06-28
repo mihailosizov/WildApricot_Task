@@ -14,7 +14,7 @@ namespace GMailTests.Utils
         [AfterScenario]
         protected void TearDown()
         {
-            Quit();
+            //Quit();
         }
     }
 }

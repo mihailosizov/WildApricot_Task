@@ -11,10 +11,16 @@ Scenario: Login to GMail box
 Scenario: Send and receive an e-mail
 	Given User is on inbox page
 	When User send an email to mikhailsizov.test@gmail.com
-	Then User successfully receives this email
+	Then User successfully receives email
 
 Scenario: Delete e-mail from inbox
 	Given User is on inbox page
 	And Email with Test subject was sent to mikhailsizov.test@gmail.com
-	When User deletes a letter with Test subject
+	When User deletes an email with Test subject
 	Then Email with Test subject is deleted
+
+Scenario: Delete several e-mail from inbox
+	Given User is on inbox page
+	And 2 emails with Test subject was sent to mikhailsizov.test@gmail.com
+	When User deletes all emails with Test subject
+	Then All emails with Test subject are deleted

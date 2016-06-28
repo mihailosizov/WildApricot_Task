@@ -11,6 +11,7 @@ namespace GMailPages
         private static double waitTimeout = 5000;
         private static IWebDriver instance;
         private static ILog logger;
+        private static WebDriverWait wait;
 
         public static IWebDriver Instance
         {
@@ -38,6 +39,20 @@ namespace GMailPages
             }
         }
 
+        public static WebDriverWait Wait
+        {
+            get
+            {
+                if (wait == null)
+                {
+                    wait = new WebDriverWait(Instance, TimeSpan.FromSeconds(waitTimeout));
+                }
+                return wait;
+            }
+
+            private set { }
+        }
+
         public static void Initialize()
         {
             TurnOnImplicitlyWait();
@@ -52,11 +67,6 @@ namespace GMailPages
         public static void Quit()
         {
             //Instance.Quit();
-        }
-
-        public static void NavigateTo(string address)
-        {
-            Instance.Navigate().GoToUrl(address);
         }
     }
 }
