@@ -1,5 +1,4 @@
-﻿using log4net;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using System;
@@ -8,45 +7,25 @@ namespace GMailPages
 {
     public class Driver
     {
-        private static double waitTimeout = 5000;
+        private static double waitTimeout = 10000;
         private static IWebDriver instance;
-        private static ILog logger;
         private static WebDriverWait wait;
+        private static bool isInitialized = false;
 
         public static IWebDriver Instance
         {
             get
             {
-                if (instance == null)
-                {
-                    instance = new ChromeDriver();
-                }
                 return instance;
 
             }
             private set { }
         }
 
-        public static ILog Logger
-        {
-            get
-            {
-                if (logger == null)
-                {
-                    logger = LogManager.GetLogger("GMail test log");
-                }
-                return logger;
-            }
-        }
-
         public static WebDriverWait Wait
         {
             get
             {
-                if (wait == null)
-                {
-                    wait = new WebDriverWait(Instance, TimeSpan.FromSeconds(waitTimeout));
-                }
                 return wait;
             }
 
@@ -55,18 +34,25 @@ namespace GMailPages
 
         public static void Initialize()
         {
-            TurnOnImplicitlyWait();
-            Instance.Manage().Window.Maximize();
+            if (!isInitialized)
+            {
+                instance = new ChromeDriver();
+                wait = new WebDriverWait(instance, TimeSpan.FromSeconds(waitTimeout));
+                TurnOnImplicitlyWait();
+                instance.Manage().Window.Maximize();
+                isInitialized = true;
+            }
         }
 
         private static void TurnOnImplicitlyWait()
         {
-            Instance.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromMilliseconds(waitTimeout));
+            instance.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromMilliseconds(waitTimeout));
         }
 
-        public static void Quit()
+        public static void Close()
         {
-            Instance.Quit();
+            instance.Quit();
+            isInitialized = false;
         }
     }
 }

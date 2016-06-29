@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace GMailPages.Pages
 
         private By bySuccessfullSendMessageXPath = By.XPath("//div[contains(text(), 'Your message has been sent.')]");
 
-        public static List<string> sentMessagesSubjects = new List<string>();
+        public static List<string> SentMessagesSubjects = new List<string>();
 
         public ComposePage()
         {
@@ -53,20 +54,24 @@ namespace GMailPages.Pages
         public void SendMessage()
         {
             sendButton.Click();
-            if (!driver.FindElements(bySuccessfullSendMessageXPath).Any())
-                throw new Exception("Message has not been sent");
+            WaitForSend();
         }
 
         public static string GenerateRandomSubject()
         {
             string subject = StaticData.DefaultSubject + random.Next(10000, 99999);
-            sentMessagesSubjects.Add(subject);
+            SentMessagesSubjects.Add(subject);
             return subject;
         }
 
         public static void ClearSentMessagesList()
         {
-            sentMessagesSubjects.Clear();
+            SentMessagesSubjects.Clear();
+        }
+
+        public void WaitForSend()
+        {
+            Driver.Wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(bySuccessfullSendMessageXPath));
         }
     }
 }

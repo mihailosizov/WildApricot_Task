@@ -12,7 +12,7 @@ namespace GMailTests.Steps
         private InboxPage inboxPage = new InboxPage();
         private ComposePage composePage = new ComposePage();
 
-        [Given(@"User is on inbox page")]
+        [Given(@"User is on Inbox page")]
         public void GivenUserIsOnInboxPage()
         {
             if (inboxPage.IsNavToolbarPresent())
@@ -25,9 +25,9 @@ namespace GMailTests.Steps
             }
         }
 
-        [When(@"User send an email to (.*)")]
-        [Given(@"Email with Test subject was sent to (.*)")]
-        public void WhenUserSendAnEmailTo(string address)
+        [When(@"User sends an email to (.*)")]
+        [Given(@"An email was sent to (.*)")]
+        public void WhenUserSendsAnEmailTo(string address)
         {
             composePage = inboxPage.ClickNewMessageButton();
             composePage.FillToField(address);
@@ -36,20 +36,20 @@ namespace GMailTests.Steps
             composePage.SendMessage();
         }
 
-        [Given(@"(.*) emails with Test subject was sent to (.*)")]
-        public void GivenEmailsWithTestSubjectWasSentTo(int numberOfEmails, string address)
+        [Given(@"(.*) emails was sent to (.*)")]
+        public void GivenEmailsWasSentTo(int numberOfEmails, string address)
         {
             for (int i = 0; i < numberOfEmails; i++)
             {
-                WhenUserSendAnEmailTo(address);
+                WhenUserSendsAnEmailTo(address);
             }
         }
 
-        [Then(@"User successfully receives email")]
-        public void ThenUserSuccessfullyReceivesEMail()
+        [Then(@"User received (.*) email successfully")]
+        public void ThenUserReceivedEmailSuccessfully(int numberOfEmails)
         {
             inboxPage = inboxPage.OpenInbox();
-            bool isMessageInTheInbox = (inboxPage.FindElementsByTextInMessagesPanel(ComposePage.sentMessagesSubjects).Count > 0);
+            bool isMessageInTheInbox = (inboxPage.FindElementsByTextInMessagesPanel(ComposePage.SentMessagesSubjects).Count == numberOfEmails);
             Assert.IsTrue(isMessageInTheInbox);
         }
     }

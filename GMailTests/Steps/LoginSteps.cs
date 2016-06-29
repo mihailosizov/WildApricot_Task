@@ -12,6 +12,17 @@ namespace GMailTests
         private LoginPage loginPage;
         private InboxPage inboxPage;
 
+        [Given(@"User is logged out")]
+        public void GivenUserIsLoggedOut()
+        {
+            if (Driver.Instance.Title.Contains(DefaultLogIn))
+            {
+                Driver.Close();
+                Driver.Initialize();
+            }
+
+        }
+
         [Given(@"GMail login page")]
         public void GivenGMailLoginPage()
         {
@@ -19,18 +30,18 @@ namespace GMailTests
             loginPage.OpenLoginPage();
         }
 
-        [When(@"User tries to log in using standard password")]
-        public void WhenUserTriesToLogInUsingLoginAndPassword()
+        [When(@"User performs login with correct credentials")]
+        public void WhenUserPerformsLoginWithCorrectCredentials()
         {
             loginPage.EnterLoginAndProceed(DefaultLogIn);
             loginPage.EnterPassword(DefaultPassword);
             inboxPage = loginPage.SignIn();
         }
 
-        [Then(@"User successfully logged in")]
-        public void ThenUserSuccessfullyLoggedIn()
+        [Then(@"User logged in successfully")]
+        public void ThenUserLoggedInSuccessfully()
         {
-            Assert.IsTrue(Driver.Instance.Title.Contains("Inbox") && inboxPage.IsNavToolbarPresent());
+            Assert.IsTrue(Driver.Instance.Title.Contains(DefaultLogIn) && inboxPage.IsNavToolbarPresent());
         }
     }
 }

@@ -9,21 +9,21 @@ namespace GMailTests
     {
         private InboxPage inboxPage = new InboxPage();
 
-        [When(@"User deletes all emails with Test subject")]
-        [When(@"User deletes an email with Test subject")]
-        public void WhenUserDeletesAnEmailWithTestSubject()
+        [When(@"User deletes all emails that was sent")]
+        [When(@"User deletes an email that was sent")]
+        public void WhenUserDeletesEmails()
         {
             inboxPage = inboxPage.OpenInbox();
-            inboxPage.SelectMessagesByText(ComposePage.sentMessagesSubjects);
+            inboxPage.SelectMessagesByText(ComposePage.SentMessagesSubjects);
             inboxPage.ClickDeleteButton();
         }
 
-        [Then(@"Email with Test subject is deleted")]
-        [Then(@"All emails with Test subject are deleted")]
-        public void ThenEmailWithTestSubjectIsDeleted()
+        [Then(@"An email that was sent has been deleted")]
+        [Then(@"All emails that was sent has been deleted")]
+        public void ThenEmailsHasBeenDeleted()
         {
             inboxPage = inboxPage.OpenInbox();
-            bool isMessageNotInTheInbox = (inboxPage.FindElementsByTextInMessagesPanel(ComposePage.sentMessagesSubjects).Count == 0);
+            bool isMessageNotInTheInbox = (inboxPage.FindElementsByTextInMessagesPanel(ComposePage.SentMessagesSubjects).Count == 0);
             Assert.IsTrue(isMessageNotInTheInbox);
         }
     }

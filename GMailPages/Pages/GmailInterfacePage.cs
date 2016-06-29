@@ -38,7 +38,6 @@ namespace GMailPages.Pages
         {
             if (driver.FindElements(byNavigationToolbarXPath).Any())
             {
-                Driver.Logger.Info("GMail main interface page is loaded");
                 return true;
             }
             return false;
@@ -53,8 +52,7 @@ namespace GMailPages.Pages
         public void ClickDeleteButton()
         {
             deleteButton.Click();
-            if (!driver.FindElements(bySuccessfullDeleteMessageXPath).Any())
-                throw new Exception("Message has not been deleted");
+            WaitForDelete();
             Refresh();
         }
 
@@ -67,18 +65,23 @@ namespace GMailPages.Pages
         private void NavigationToolbarGoTo(string menuLinkName)
         {
             navigationToolbar.FindElement(By.PartialLinkText(menuLinkName)).Click();
-            waitForLoading();
+            WaitForLoading();
         }
 
-        public void waitForLoading()
+        public void WaitForLoading()
         {
             Driver.Wait.Until(ExpectedConditions.InvisibilityOfElementLocated(byLoadingMessageXPath));
+        }
+
+        public void WaitForDelete()
+        {
+            Driver.Wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(bySuccessfullDeleteMessageXPath));
         }
 
         public void Refresh()
         {
             refreshButton.Click();
-            waitForLoading();
+            WaitForLoading();
         }
     }
 }

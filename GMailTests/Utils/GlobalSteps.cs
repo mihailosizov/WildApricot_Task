@@ -5,25 +5,25 @@ using TechTalk.SpecFlow;
 namespace GMailTests.Utils
 {
     [Binding]
-    public class GlobalSteps : Driver
+    public class GlobalSteps
     {
-        [BeforeScenario]
-        protected void SetUp()
+        [BeforeFeature]
+        public static void SetUp()
         {
-            Initialize();
+            Driver.Initialize();
         }
 
         [AfterScenario]
-        protected void ScenarioTearDown()
+        public void ScenarioTearDown()
         {
             ComposePage.ClearSentMessagesList();
             
         }
 
         [AfterFeature]
-        protected static void FeatureTearDown()
+        public static void FeatureTearDown()
         {
-            Quit();
+            Driver.Close();
         }
     }
 }
