@@ -1,15 +1,11 @@
 ﻿using GMailPages.Pages;
-using GMailTests.Steps;
-using GMailTests.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenQA.Selenium.Support.PageObjects;
-using System;
 using TechTalk.SpecFlow;
 
 namespace GMailTests
 {
     [Binding]
-    public class DeleteSteps : BaseTest
+    public class DeleteSteps
     {
         private InboxPage inboxPage = new InboxPage();
 
@@ -18,7 +14,7 @@ namespace GMailTests
         public void WhenUserDeletesAnEmailWithTestSubject()
         {
             inboxPage = inboxPage.OpenInbox();
-            inboxPage.SelectMessagesByText(SendSteps.sentMessagesSubjects);
+            inboxPage.SelectMessagesByText(ComposePage.sentMessagesSubjects);
             inboxPage.ClickDeleteButton();
         }
 
@@ -27,8 +23,7 @@ namespace GMailTests
         public void ThenEmailWithTestSubjectIsDeleted()
         {
             inboxPage = inboxPage.OpenInbox();
-            bool isMessageNotInTheInbox = (inboxPage.FindElementsByTextInMessagesPanel(SendSteps.sentMessagesSubjects).Count == 0);
-            SendSteps.sentMessagesSubjects.Clear();
+            bool isMessageNotInTheInbox = (inboxPage.FindElementsByTextInMessagesPanel(ComposePage.sentMessagesSubjects).Count == 0);
             Assert.IsTrue(isMessageNotInTheInbox);
         }
     }

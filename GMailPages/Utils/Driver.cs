@@ -66,7 +66,7 @@ namespace GMailPages
 
         public static void Quit()
         {
-            //Instance.Quit();
+            Instance.Quit();
         }
     }
 }

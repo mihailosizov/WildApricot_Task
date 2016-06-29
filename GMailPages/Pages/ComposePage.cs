@@ -3,13 +3,13 @@ using OpenQA.Selenium.Support.PageObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GMailPages.Pages
 {
     public class ComposePage : GmailInterfacePage
     {
+        private static Random random = new Random();
+
         [FindsBy(How = How.Name, Using = "to")]
         [CacheLookup]
         private IWebElement toField;
@@ -27,6 +27,8 @@ namespace GMailPages.Pages
         private IWebElement sendButton;
 
         private By bySuccessfullSendMessageXPath = By.XPath("//div[contains(text(), 'Your message has been sent.')]");
+
+        public static List<string> sentMessagesSubjects = new List<string>();
 
         public ComposePage()
         {
@@ -53,6 +55,18 @@ namespace GMailPages.Pages
             sendButton.Click();
             if (!driver.FindElements(bySuccessfullSendMessageXPath).Any())
                 throw new Exception("Message has not been sent");
+        }
+
+        public static string GenerateRandomSubject()
+        {
+            string subject = StaticData.DefaultSubject + random.Next(10000, 99999);
+            sentMessagesSubjects.Add(subject);
+            return subject;
+        }
+
+        public static void ClearSentMessagesList()
+        {
+            sentMessagesSubjects.Clear();
         }
     }
 }

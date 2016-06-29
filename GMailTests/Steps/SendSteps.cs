@@ -1,23 +1,16 @@
 ﻿using GMailPages;
 using GMailPages.Pages;
-using GMailTests.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenQA.Selenium.Support.PageObjects;
-using System;
-using System.Collections.Generic;
 using TechTalk.SpecFlow;
 using static GMailPages.StaticData;
-using System.Linq;
 
 namespace GMailTests.Steps
 {
     [Binding]
-    public class SendSteps : BaseTest
+    public class SendSteps
     {
         private InboxPage inboxPage = new InboxPage();
         private ComposePage composePage = new ComposePage();
-        private Random random = new Random();
-        public static List<string> sentMessagesSubjects = new List<string>();
 
         [Given(@"User is on inbox page")]
         public void GivenUserIsOnInboxPage()
@@ -36,10 +29,9 @@ namespace GMailTests.Steps
         [Given(@"Email with Test subject was sent to (.*)")]
         public void WhenUserSendAnEmailTo(string address)
         {
-            sentMessagesSubjects.Add(DefaultSubject + random.Next(10000, 99999));
             composePage = inboxPage.ClickNewMessageButton();
             composePage.FillToField(address);
-            composePage.FillSubjectField(sentMessagesSubjects.Last());
+            composePage.FillSubjectField(ComposePage.GenerateRandomSubject());
             composePage.FillMessageBody(DefaultMessageText);
             composePage.SendMessage();
         }
@@ -57,8 +49,7 @@ namespace GMailTests.Steps
         public void ThenUserSuccessfullyReceivesEMail()
         {
             inboxPage = inboxPage.OpenInbox();
-            bool isMessageInTheInbox = (inboxPage.FindElementsByTextInMessagesPanel(sentMessagesSubjects).Count > 0);
-            sentMessagesSubjects.Clear();
+            bool isMessageInTheInbox = (inboxPage.FindElementsByTextInMessagesPanel(ComposePage.sentMessagesSubjects).Count > 0);
             Assert.IsTrue(isMessageInTheInbox);
         }
     }
