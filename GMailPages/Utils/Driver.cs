@@ -38,15 +38,10 @@ namespace GMailPages
             {
                 instance = new ChromeDriver();
                 wait = new WebDriverWait(instance, TimeSpan.FromSeconds(waitTimeout));
-                TurnOnImplicitlyWait();
+                instance.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromMilliseconds(waitTimeout));
                 instance.Manage().Window.Maximize();
                 isInitialized = true;
             }
-        }
-
-        private static void TurnOnImplicitlyWait()
-        {
-            instance.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromMilliseconds(waitTimeout));
         }
 
         public static void Close()
