@@ -10,7 +10,7 @@ namespace GMailPages
         private static double waitTimeout = 10000;
         private static IWebDriver instance;
         private static WebDriverWait wait;
-        private static bool isInitialized = false;
+        private static bool isInitialized;
 
         public static IWebDriver Instance
         {
