@@ -3,7 +3,7 @@ using OpenQA.Selenium.Support.PageObjects;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace GMailPages.Pages
+namespace Common.Pages
 {
     public class InboxPage : GmailInterfacePage
     {

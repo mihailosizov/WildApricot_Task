@@ -1,4 +1,4 @@
-﻿using GMailPages.Pages;
+﻿using Common.Pages;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TechTalk.SpecFlow;
 

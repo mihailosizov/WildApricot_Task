@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5E10C5D9-D86F-4DE1-8505-52BBA02A3B22}</ProjectGuid>
+    <ProjectGuid>{BEC8EB29-B56F-4733-BAFC-F54385EA7EE7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GMailTests</RootNamespace>
-    <AssemblyName>GMailTests</AssemblyName>
+    <RootNamespace>WildApricotTests</RootNamespace>
+    <AssemblyName>WildApricotTests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -35,9 +35,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -68,56 +65,28 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Scenarios\Delete.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Delete.feature</DependentUpon>
-    </Compile>
-    <Compile Include="Scenarios\Login.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Login.feature</DependentUpon>
-    </Compile>
-    <Compile Include="Scenarios\Send.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Send.feature</DependentUpon>
-    </Compile>
-    <Compile Include="Steps\DeleteSteps.cs" />
-    <Compile Include="Steps\LoginSteps.cs" />
+    <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Steps\SendSteps.cs" />
     <Compile Include="Utils\GlobalSteps.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Scenarios\Delete.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>Delete.feature.cs</LastGenOutput>
-    </None>
+    <None Include="App.config" />
     <None Include="packages.config" />
-    <None Include="Scenarios\Login.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>Login.feature.cs</LastGenOutput>
-    </None>
-    <None Include="Scenarios\Send.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>Send.feature.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{2e04fda7-43cc-45f4-aaa5-a852654b00b0}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GMailPages\GMailPages.csproj">
-      <Project>{d4771326-7161-481b-9185-62a5f678ced0}</Project>
-      <Name>GMailPages</Name>
+    <ProjectReference Include="..\WildApricotPages\WildApricotPages.csproj">
+      <Project>{0128f2fb-d764-4444-b623-ea8eeab6e4b1}</Project>
+      <Name>WildApricotPages</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Scenarios\" />
+    <Folder Include="Steps\" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

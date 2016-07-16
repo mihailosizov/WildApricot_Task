@@ -3,9 +3,8 @@ using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace GMailPages.Pages
+namespace Common.Pages
 {
     public class ComposePage : GmailInterfacePage
     {
@@ -23,7 +22,7 @@ namespace GMailPages.Pages
         [CacheLookup]
         private IWebElement messageBody;
 
-        [FindsBy(How = How.XPath, Using = "//div[contains(text(), 'Send')]")]
+        [FindsBy(How = How.XPath, Using = "//div[@role='button' and contains(text(), 'Send')]")]
         [CacheLookup]
         private IWebElement sendButton;
 

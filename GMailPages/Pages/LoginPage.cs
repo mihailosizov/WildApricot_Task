@@ -1,10 +1,10 @@
-﻿using GMailPages.Pages;
+﻿using Common.Pages;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using System.Linq;
-using static GMailPages.StaticData;
+using static Common.StaticData;
 
-namespace GMailPages
+namespace Common
 {
     public class LoginPage
     {

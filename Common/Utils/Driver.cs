@@ -3,14 +3,14 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using System;
 
-namespace GMailPages
+namespace Common
 {
     public class Driver
     {
         private static double waitTimeout = 10000;
         private static IWebDriver instance;
         private static WebDriverWait wait;
-        private static bool isInitialized;
+        private static bool isInitialized = false;
 
         public static IWebDriver Instance
         {

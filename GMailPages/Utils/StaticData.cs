@@ -1,4 +1,4 @@
-﻿namespace GMailPages
+﻿namespace Common
 {
     public class StaticData
     {

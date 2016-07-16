@@ -4,7 +4,7 @@ using OpenQA.Selenium.Support.UI;
 using System;
 using System.Linq;
 
-namespace GMailPages.Pages
+namespace Common.Pages
 {
     public class GmailInterfacePage
     {

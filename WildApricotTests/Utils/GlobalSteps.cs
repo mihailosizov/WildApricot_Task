@@ -1,5 +1,4 @@
 ﻿using Common;
-using Common.Pages;
 using TechTalk.SpecFlow;
 
 namespace GMailTests.Utils
@@ -11,13 +10,6 @@ namespace GMailTests.Utils
         public static void SetUp()
         {
             Driver.Initialize();
-        }
-
-        [AfterScenario]
-        public void ScenarioTearDown()
-        {
-            ComposePage.ClearSentMessagesList();
-            
         }
 
         [AfterFeature]
