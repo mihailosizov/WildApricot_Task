@@ -31,7 +31,7 @@ namespace WildApricotTests.Steps
         public void ThenAdminUserIsSuccessfullyLoggedInToAdminView()
         {
             string expectedTitle = TestAccountAdminUserName.Remove(TestAccountAdminUserName.IndexOf("@"));
-            Assert.IsTrue(Driver.Instance.Title.Contains(expectedTitle) && adminViewPage.IsAdminMenuPresent());
+            Assert.IsTrue(adminViewPage.IsAdminMenuPresent());
         }
     }
 }
