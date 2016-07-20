@@ -1,8 +1,7 @@
-﻿using Common;
-using Common.Pages;
+﻿using GmailPages.Pages;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TechTalk.SpecFlow;
-using static Common.StaticData;
+using static GmailPages.Utils.StaticData;
 
 namespace GMailTests.Steps
 {

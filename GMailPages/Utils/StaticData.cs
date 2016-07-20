@@ -1,4 +1,4 @@
-﻿namespace Common
+﻿namespace GmailPages.Utils
 {
     public class StaticData
     {

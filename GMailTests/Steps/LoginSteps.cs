@@ -1,10 +1,10 @@
 ﻿using TechTalk.SpecFlow;
-using Common;
-using Common.Pages;
+using GmailPages.Pages;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static Common.StaticData;
+using static GmailPages.Utils.StaticData;
+using Common.Utils;
 
-namespace GMailTests
+namespace GMailTests.Steps
 {
     [Binding]
     public class LoginSteps

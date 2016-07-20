@@ -1,7 +1,7 @@
-﻿using Common;
+﻿using Common.Utils;
 using TechTalk.SpecFlow;
 
-namespace GMailTests.Utils
+namespace WildApricotTests.Utils
 {
     [Binding]
     public class GlobalSteps

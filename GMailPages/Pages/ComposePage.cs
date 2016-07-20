@@ -1,10 +1,12 @@
-﻿using OpenQA.Selenium;
+﻿using Common.Utils;
+using GmailPages.Utils;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 
-namespace Common.Pages
+namespace GmailPages.Pages
 {
     public class ComposePage : GmailInterfacePage
     {

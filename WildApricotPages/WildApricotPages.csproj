@@ -49,14 +49,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Pages\AdminView\AdminViewPage.cs" />
+    <Compile Include="Pages\AdminView\ContactsPage.cs" />
+    <Compile Include="Pages\AdminView\ExportPage.cs" />
+    <Compile Include="Pages\TestAccountLoginPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\StaticData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Pages\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{2e04fda7-43cc-45f4-aaa5-a852654b00b0}</Project>

@@ -1,9 +1,10 @@
-﻿using OpenQA.Selenium;
+﻿using Common.Utils;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace Common.Pages
+namespace GmailPages.Pages
 {
     public class InboxPage : GmailInterfacePage
     {
@@ -34,6 +35,7 @@ namespace Common.Pages
 
         public List<IWebElement> FindElementsByTextInMessagesPanel(ICollection<string> texts)
         {
+            Driver.SetReducedWaitTimeout();
             List<IWebElement> foundElements = new List<IWebElement>();
             ReadOnlyCollection<IWebElement> nextFoundElements;
             foreach (string text in texts)
@@ -49,6 +51,7 @@ namespace Common.Pages
                     elementsToReturn.Add(element);
                 }
             }
+            Driver.SetDefaultWaitTimeout();
             return elementsToReturn;
         }
     }

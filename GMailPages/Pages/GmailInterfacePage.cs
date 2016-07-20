@@ -1,10 +1,11 @@
-﻿using OpenQA.Selenium;
+﻿using Common.Utils;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
-using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Common.Pages
+namespace GmailPages.Pages
 {
     public class GmailInterfacePage
     {
@@ -36,11 +37,10 @@ namespace Common.Pages
 
         public bool IsNavToolbarPresent()
         {
-            if (driver.FindElements(byNavigationToolbarXPath).Any())
-            {
-                return true;
-            }
-            return false;
+            Driver.SetReducedWaitTimeout();
+            ReadOnlyCollection<IWebElement> navToolbarElements = driver.FindElements(byNavigationToolbarXPath);
+            Driver.SetDefaultWaitTimeout();
+            return navToolbarElements.Any();
         }
 
         public ComposePage ClickNewMessageButton()

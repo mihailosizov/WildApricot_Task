@@ -1,5 +1,5 @@
-﻿using Common;
-using Common.Pages;
+﻿using Common.Utils;
+using GmailPages.Pages;
 using TechTalk.SpecFlow;
 
 namespace GMailTests.Utils

@@ -65,13 +65,34 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scenarios\ExportContacts.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ExportContacts.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Scenarios\Login.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Login.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\AdminViewSteps.cs" />
+    <Compile Include="Steps\ContactsSteps.cs" />
+    <Compile Include="Steps\ExportContactsSteps.cs" />
+    <Compile Include="Steps\LoginSteps.cs" />
     <Compile Include="Utils\GlobalSteps.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Scenarios\ExportContacts.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>ExportContacts.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Scenarios\Login.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Login.feature.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
@@ -83,10 +104,7 @@
       <Name>WildApricotPages</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Scenarios\" />
-    <Folder Include="Steps\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

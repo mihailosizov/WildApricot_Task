@@ -1,8 +1,8 @@
-﻿using Common.Pages;
+﻿using GmailPages.Pages;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TechTalk.SpecFlow;
 
-namespace GMailTests
+namespace GMailTests.Steps
 {
     [Binding]
     public class DeleteSteps
